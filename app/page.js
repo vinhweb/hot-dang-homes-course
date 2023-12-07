@@ -4,7 +4,11 @@ import { BlockRenderer } from "components/BlockRenderer";
 
 export default async function Page() {
   const data = await getPageByUri("/");
-  return <BlockRenderer blocks={data.blocks} />;
+  return (
+    <div>
+      <BlockRenderer blocks={data.blocks} />
+    </div>
+  );
 }
 
 export async function generateMetadata() {

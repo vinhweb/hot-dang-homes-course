@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [process.env.WP_IMAGES_URL],
+    remotePatterns: [
+      {
+        hostname: process.env.WP_IMAGES_URL,
+        pathname: '**'
+      }
+    ],
   },
 };
 
