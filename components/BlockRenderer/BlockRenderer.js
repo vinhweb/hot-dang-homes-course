@@ -1,17 +1,16 @@
+import { CallToActionButton } from "components/CallToActionButton";
+import { Column } from "components/Column";
+import { Columns } from "components/Columns";
+import { Cover } from "components/Cover";
+import { FormspreeForm } from "components/FormspreeForm";
+import { Gallery } from "components/Gallery";
+import { Heading } from "components/Heading";
+import { Paragraph } from "components/Paragraph";
+import { PropertyFeatures } from "components/PropertyFeatures";
+import { PropertySearch } from "components/PropertySearch";
+import { TickItem } from "components/TickItem";
 import Image from "next/image";
-import { PropertyFeatures } from "../PropertyFeatures";
-import { TickItem } from "../TickItem";
-import { Gallery } from "../Gallery";
-import { FormspreeForm } from "../FormspreeForm";
-import { CallToActionButton } from "../CallToActionButton";
-import { Paragraph } from "../Paragraph";
-import { Heading } from "../Heading";
-import { PostTitle } from "../PostTitle";
-import { PropertySearch } from "../PropertySearch";
-import { Cover } from "../Cover";
-import { Columns } from "../Columns";
-import { Column } from "../Column";
-import { theme } from "../../theme";
+import { theme } from "theme";
 
 export const BlockRenderer = ({ blocks }) => {
   return blocks?.map((block) => {
@@ -76,6 +75,7 @@ export const BlockRenderer = ({ blocks }) => {
           />
         );
       }
+      case "core/post-title":
       case "core/heading": {
         return (
           <Heading
@@ -86,28 +86,20 @@ export const BlockRenderer = ({ blocks }) => {
           />
         );
       }
-      case "core/post-title": {
-        return (
-          <PostTitle
-            key={block.id}
-            level={block.attributes.level}
-            textAlign={block.attributes.textAlign}
-          />
-        );
-      }
       case "acf/propertysearch": {
         return <PropertySearch key={block.id} />;
       }
       case "core/cover": {
-        console.log("COVER BLOCK: ", block);
         return (
-          <Cover key={block.id} background={block.attributes.url}>
+          <Cover
+            key={block.id}
+            background={block.attributes.url.replace("https:", "http:")}
+          >
             <BlockRenderer blocks={block.innerBlocks} />
           </Cover>
         );
       }
       case "core/columns": {
-        console.log("COLUMNS: ", block.attributes);
         return (
           <Columns
             key={block.id}
@@ -152,15 +144,15 @@ export const BlockRenderer = ({ blocks }) => {
         return (
           <Image
             key={block.id}
-            src={block.attributes.url}
+            src={block.attributes.url.replace("https:", "http:")}
             height={block.attributes.height}
             width={block.attributes.width}
             alt={block.attributes.alt || ""}
+            priority="low"
           />
         );
       }
       default: {
-        console.log("UNKNOWN: ", block);
         return null;
       }
     }
